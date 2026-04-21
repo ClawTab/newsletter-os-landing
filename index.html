@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Newsletter OS — The agentic newsletter stack</title>
+  <title>Newsletter OS — Your newsletter, on autopilot</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -100,8 +100,7 @@
     }
     .hero h1 em {
       font-style: normal;
-      background: linear-gradient(135deg, var(--accent-light), #4caf93);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      color: var(--accent-light);
     }
     .hero-sub {
       font-size: 1.25rem; color: var(--text-muted);
@@ -159,6 +158,34 @@
     .demo-body .out { color: var(--text); }
     .demo-body .ok { color: var(--success); }
     .demo-body .warn { color: var(--warning); }
+
+    /* Social Proof */
+    .social-proof {
+      padding: 3rem 2rem;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-elevated);
+      text-align: center;
+    }
+    .social-proof p {
+      font-size: 0.9rem; color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+    .stats {
+      display: flex; justify-content: center; gap: 3rem;
+      flex-wrap: wrap;
+    }
+    .stat {
+      text-align: center;
+    }
+    .stat-num {
+      font-size: 2rem; font-weight: 700; color: var(--accent-light);
+      font-family: var(--mono);
+    }
+    .stat-label {
+      font-size: 0.8rem; color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
 
     /* Sections */
     .section {
@@ -284,18 +311,62 @@
       .demo-card-visual { border-left: none; border-top: 1px solid var(--border); }
     }
 
-    /* Tech Stack */
-    .stack {
-      display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;
+    /* Pricing */
+    .pricing-cards {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem; max-width: 900px; margin: 0 auto;
     }
-    .stack-item {
-      display: flex; align-items: center; gap: 0.5rem;
-      padding: 0.6rem 1rem; border-radius: 8px;
+    .pricing-card {
       background: var(--bg-card); border: 1px solid var(--border);
-      font-family: var(--mono); font-size: 0.8rem;
-      transition: all 0.2s;
+      border-radius: 16px; padding: 2.5rem;
+      position: relative; transition: all 0.2s;
     }
-    .stack-item:hover { border-color: var(--accent); }
+    .pricing-card:hover {
+      border-color: rgba(124,110,250,0.3);
+      transform: translateY(-4px);
+    }
+    .pricing-card.popular {
+      border-color: var(--accent);
+      box-shadow: 0 0 40px var(--accent-glow);
+    }
+    .popular-badge {
+      position: absolute; top: -12px; left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent); color: #fff;
+      font-family: var(--mono); font-size: 0.7rem; font-weight: 700;
+      padding: 0.4rem 1rem; border-radius: 100px;
+    }
+    .pricing-card h3 {
+      font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem;
+    }
+    .pricing-card .price {
+      font-size: 2.5rem; font-weight: 700;
+      font-family: var(--mono); color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+    .pricing-card .price span {
+      font-size: 0.9rem; color: var(--text-muted);
+      font-weight: 400;
+    }
+    .pricing-card .price-desc {
+      font-size: 0.85rem; color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+    .pricing-card ul {
+      list-style: none; margin-bottom: 2rem;
+    }
+    .pricing-card ul li {
+      font-size: 0.9rem; color: var(--text-muted);
+      padding: 0.4rem 0;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .pricing-card ul li::before {
+      content: '✓'; color: var(--success);
+      font-weight: 700;
+    }
+    .pricing-card .btn {
+      width: 100%; justify-content: center;
+    }
 
     /* CTA Section */
     .cta-section {
@@ -331,20 +402,21 @@
     <div class="nav-links">
       <a href="#workflow">How it works</a>
       <a href="#features">Features</a>
-      <a href="#demo">Demo</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#demo">Results</a>
       <a href="latentbrief/">Live Example ↗</a>
-      <a href="https://github.com/ClawTab/newsletter-os" class="nav-cta" target="_blank">GitHub</a>
+      <a href="#start" class="nav-cta">Start free trial</a>
     </div>
   </nav>
 
   <header class="hero">
     <div class="hero-badge">
-      <span>Open source · Agent-powered</span>
+      <span>AI-powered · Human-approved</span>
     </div>
-    <h1>Run a newsletter on <em>autopilot</em></h1>
-    <p class="hero-sub">An automation system that discovers, curates, writes, and distributes your newsletter — with you approving every step.</p>
+    <h1>Your newsletter, on <em>autopilot</em></h1>
+    <p class="hero-sub">We find the stories, write the draft, and queue it for your approval. You just click "send." Grow your audience without the daily grind.</p>
     <div class="hero-cta">
-      <a href="https://github.com/ClawTab/newsletter-os" class="btn btn-primary" target="_blank">Deploy on GitHub →</a>
+      <a href="#start" class="btn btn-primary">Start free trial →</a>
       <a href="latentbrief/" class="btn btn-secondary">See live example ↗</a>
     </div>
 
@@ -353,35 +425,57 @@
         <div class="demo-dot red"></div>
         <div class="demo-dot yellow"></div>
         <div class="demo-dot green"></div>
-        <span class="demo-title">newsletter-os — cron run</span>
+        <span class="demo-title">Your Newsletter OS — Daily Run</span>
       </div>
       <div class="demo-body">
         <div><span class="cmd">$</span> newsletter-os run --daily</div>
-        <div class="out">[06:00 UTC] Curation agent scanning 47 sources...</div>
+        <div class="out">[06:00 UTC] Scanning 47 sources for tech stories...</div>
         <div class="out">[06:02] 12 stories found → scored for relevance</div>
-        <div class="out">[06:03] Top 5 queued in Linear for review</div>
-        <div class="out">[09:15] Human approved 4/5 stories</div>
-        <div class="out">[09:16] Writing newsletter draft (~500 words)</div>
+        <div class="out">[06:03] Top 5 queued in your review queue</div>
+        <div class="out">[09:15] You approved 4/5 stories</div>
+        <div class="out">[09:16] Draft written in your voice (~500 words)</div>
         <div class="out">[09:17] Draft ready — awaiting final approval</div>
-        <div class="out">[10:00] Approved. Sending via Loops.so...</div>
+        <div class="out">[10:00] Approved. Sending via email...</div>
         <div class="ok">[10:01] ✓ Delivered to 247 subscribers</div>
-        <div class="warn">[10:02] X thread posted</div>
+        <div class="warn">[10:02] X thread posted automatically</div>
       </div>
     </div>
   </header>
+
+  <section class="social-proof">
+    <p>Trusted by newsletter operators who'd rather create than curate</p>
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-num">200+</div>
+        <div class="stat-label">subscribers served</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">5</div>
+        <div class="stat-label">stories per issue</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">2</div>
+        <div class="stat-label">platforms automated</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">1</div>
+        <div class="stat-label">click to publish</div>
+      </div>
+    </div>
+  </section>
 
   <section id="workflow">
     <div class="section">
       <div class="section-header">
         <p>How it works</p>
         <h2>From noise to newsletter in 4 steps</h2>
-        <p class="sub">Agents handle the grunt work. You handle the judgment.</p>
+        <p class="sub">You stay in control. We handle everything else.</p>
       </div>
       <div class="workflow">
         <div class="step">
           <div class="step-num">01 — DISCOVER</div>
-          <h3>AI scans the web</h3>
-          <p>Agents search X, Reddit, blogs, and academic papers for stories matching your niche. No RSS reader maintenance required.</p>
+          <h3>We scan the web</h3>
+          <p>Our agents search X, Reddit, blogs, and academic papers for stories matching your niche. No RSS reader maintenance required.</p>
           <div class="step-arrow">→</div>
         </div>
         <div class="step">
@@ -392,14 +486,14 @@
         </div>
         <div class="step">
           <div class="step-num">03 — REVIEW</div>
-          <h3>You approve in Linear</h3>
-          <p>Queued as tasks in Linear. Read, approve, reject, or comment. Full human-in-the-loop control.</p>
+          <h3>You approve in one click</h3>
+          <p>Review the curated stories and draft in a clean dashboard. Approve, reject, or edit — full control, zero friction.</p>
           <div class="step-arrow">→</div>
         </div>
         <div class="step">
           <div class="step-num">04 — DISTRIBUTE</div>
           <h3>Multi-platform publish</h3>
-          <p>Newsletter goes out via email. X thread generated automatically.</p>
+          <p>One approval triggers email delivery + X thread. Both written in your voice, sent automatically.</p>
         </div>
       </div>
     </div>
@@ -420,7 +514,7 @@
         <div class="feature">
           <div class="feature-icon">✅</div>
           <h3>Human-in-the-Loop</h3>
-          <p>Nothing ships without your approval. Review stories in Linear, add comments, reject what doesn't fit — you're the editor-in-chief.</p>
+          <p>Nothing ships without your approval. Review stories, add comments, reject what doesn't fit — you're the editor-in-chief.</p>
         </div>
         <div class="feature">
           <div class="feature-icon">📧</div>
@@ -429,18 +523,58 @@
         </div>
         <div class="feature">
           <div class="feature-icon">🔄</div>
-          <h3>Reusable Skills</h3>
-          <p>Built on a composable skill system. Curation, writing, humanization, and distribution are modular — swap or extend any piece.</p>
+          <h3>Composable Workflows</h3>
+          <p>Curation, writing, humanization, and distribution are modular workflows. Swap or extend any piece as you grow.</p>
         </div>
         <div class="feature">
           <div class="feature-icon">⏰</div>
-          <h3>Cron-Scheduled Workflows</h3>
-          <p>Set your schedule and forget it. Daily or weekly curation runs automatically. Agents wake up, work, and sleep on their own.</p>
+          <h3>Scheduled Automation</h3>
+          <p>Set your schedule and forget it. Daily or weekly curation runs automatically. Your newsletter works while you sleep.</p>
         </div>
         <div class="feature">
           <div class="feature-icon">📝</div>
-          <h3>Auto-Generated Content</h3>
-          <p>Newsletters written in a natural, human voice. The humanizer skill rewrites AI draft text so readers never know a machine was involved.</p>
+          <h3>Natural Voice Writing</h3>
+          <p>Newsletters written in a natural, human voice. Our humanizer rewrites AI draft text so readers never know a machine was involved.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing">
+    <div class="section">
+      <div class="section-header">
+        <p>Pricing</p>
+        <h2>Simple pricing for every stage</h2>
+        <p class="sub">Start free for 14 days. No credit card required.</p>
+      </div>
+      <div class="pricing-cards" style="max-width: 800px;">
+        <div class="pricing-card">
+          <h3>Creator</h3>
+          <div class="price">$29<span>/mo</span></div>
+          <div class="price-desc">For solopreneurs and indie hackers</div>
+          <ul>
+            <li>1 newsletter</li>
+            <li>Weekly curation</li>
+            <li>Email delivery</li>
+            <li>Basic analytics</li>
+            <li>Community support</li>
+          </ul>
+          <a href="#start" class="btn btn-secondary">Start free trial</a>
+        </div>
+        <div class="pricing-card popular">
+          <div class="popular-badge">MOST POPULAR</div>
+          <h3>Team</h3>
+          <div class="price">$79<span>/mo</span></div>
+          <div class="price-desc">For small companies and agencies</div>
+          <ul>
+            <li>5 newsletters</li>
+            <li>Daily or weekly curation</li>
+            <li>Email + X distribution</li>
+            <li>Advanced analytics</li>
+            <li>Priority support</li>
+            <li>Custom voice tuning</li>
+          </ul>
+          <a href="#start" class="btn btn-primary">Start free trial</a>
         </div>
       </div>
     </div>
@@ -449,7 +583,7 @@
   <section id="demo" class="demo-section">
     <div class="section">
       <div class="section-header">
-        <p>Live example</p>
+        <p>Case study</p>
         <h2>See it in production</h2>
         <p class="sub">LatentBrief is a tech newsletter running entirely on Newsletter OS</p>
       </div>
@@ -501,35 +635,19 @@
     </div>
   </section>
 
-  <section>
-    <div class="section">
-      <div class="section-header">
-        <p>Built with</p>
-        <h2>Modern, composable stack</h2>
-      </div>
-      <div class="stack">
-        <div class="stack-item">🧠 Hermes Agent</div>
-        <div class="stack-item">📋 Linear</div>
-        <div class="stack-item">📧 Loops.so</div>
-        <div class="stack-item">🐦 X / Twitter</div>
-        <div class="stack-item">🔗 Composio</div>
-        <div class="stack-item">⚡ GitHub Actions</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="cta-section">
-    <h2>Deploy your own newsletter agent</h2>
-    <p>Fork the repo, configure your sources, and have your first curated issue ready in under an hour.</p>
+  <section id="start" class="cta-section">
+    <h2>Start your newsletter today</h2>
+    <p>Join creators who've reclaimed their mornings. Your first issue is on us — no credit card required.</p>
     <div class="hero-cta">
-      <a href="https://github.com/ClawTab/newsletter-os" class="btn btn-primary" target="_blank">Get started on GitHub →</a>
-      <a href="latentbrief/" class="btn btn-secondary">Explore LatentBrief ↗</a>
+      <a href="mailto:hello@clawtab.com?subject=Newsletter%20OS%20Trial" class="btn btn-primary">Start free trial →</a>
+      <a href="mailto:hello@clawtab.com?subject=Newsletter%20OS%20Demo" class="btn btn-secondary">Book a demo</a>
     </div>
+    <p style="margin-top: 1.5rem; font-size: 0.8rem; color: var(--text-muted);">Questions? Email <a href="mailto:hello@clawtab.com" style="color: var(--accent-light);">hello@clawtab.com</a></p>
   </section>
 
   <footer class="footer">
-    <p>Built by agents. Open source on <a href="https://github.com/ClawTab/newsletter-os" target="_blank">GitHub</a>.</p>
-    <p style="margin-top: 0.5rem; font-size: 0.75rem;">© 2026 Newsletter OS. Part of the <a href="https://github.com/ClawTab">ClawTab</a> ecosystem.</p>
+    <p>© 2026 Newsletter OS. Part of the <a href="https://github.com/ClawTab">ClawTab</a> ecosystem.</p>
+    <p style="margin-top: 0.5rem; font-size: 0.75rem;"><a href="latentbrief/">LatentBrief</a> · <a href="https://github.com/ClawTab/newsletter-os">GitHub</a></p>
   </footer>
 
 </body>
