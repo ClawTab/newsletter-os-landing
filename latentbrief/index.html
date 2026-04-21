@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LatentBrief — The signal beneath the AI noise</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0a0f;
+      --bg-elevated: #12121a;
+      --bg-card: #1a1a24;
+      --border: rgba(255,255,255,0.08);
+      --text: #e8e6e3;
+      --text-muted: #8a8780;
+      --accent: #4caf93;
+      --accent-light: #6dd5b8;
+      --accent-glow: rgba(76,175,147,0.15);
+      --mono: 'Space Mono', monospace;
+      --sans: 'DM Sans', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.25rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(10,10,15,0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--mono); font-weight: 700; font-size: 1.1rem;
+      color: var(--accent-light); letter-spacing: -0.02em;
+    }
+    .nav-logo span { color: var(--text-muted); font-weight: 400; }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-links a {
+      font-size: 0.9rem; color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      font-family: var(--mono); font-size: 0.8rem; font-weight: 700;
+      padding: 0.5rem 1rem; border-radius: 6px;
+      background: var(--accent); color: #fff;
+      transition: all 0.2s;
+    }
+    .nav-cta:hover { background: var(--accent-light); }
+
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(ellipse at 30% 20%, var(--accent-glow) 0%, transparent 50%),
+                  radial-gradient(ellipse at 70% 80%, rgba(124,110,250,0.08) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 700; line-height: 1.15;
+      letter-spacing: -0.03em; max-width: 800px;
+      margin-bottom: 1.25rem;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--accent-light), #7c6efa);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      font-size: 1.2rem; color: var(--text-muted);
+      max-width: 520px; margin-bottom: 2.5rem;
+    }
+    .signup {
+      display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;
+      width: 100%; max-width: 440px;
+    }
+    .signup input {
+      flex: 1; min-width: 240px;
+      padding: 0.875rem 1.25rem; border-radius: 8px;
+      border: 1px solid var(--border); background: var(--bg-card);
+      color: var(--text); font-family: var(--sans); font-size: 0.95rem;
+      outline: none; transition: border-color 0.2s;
+    }
+    .signup input:focus { border-color: var(--accent); }
+    .signup input::placeholder { color: var(--text-muted); }
+    .signup button {
+      padding: 0.875rem 1.5rem; border-radius: 8px;
+      border: none; background: var(--accent); color: #fff;
+      font-family: var(--mono); font-size: 0.8rem; font-weight: 700;
+      cursor: pointer; transition: all 0.2s; white-space: nowrap;
+    }
+    .signup button:hover { background: var(--accent-light); transform: translateY(-1px); }
+    .signup-note {
+      margin-top: 0.75rem; font-size: 0.8rem; color: var(--text-muted);
+    }
+
+    .section {
+      padding: 5rem 2rem; max-width: 1000px; margin: 0 auto;
+    }
+    .section-header {
+      text-align: center; margin-bottom: 3rem;
+    }
+    .section-header p {
+      font-family: var(--mono); font-size: 0.75rem;
+      color: var(--accent-light); text-transform: uppercase;
+      letter-spacing: 0.1em; margin-bottom: 0.75rem;
+    }
+    .section-header h2 {
+      font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .cards {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 2rem;
+      transition: all 0.2s;
+    }
+    .card:hover { border-color: rgba(76,175,147,0.3); transform: translateY(-2px); }
+    .card-label {
+      font-family: var(--mono); font-size: 0.7rem;
+      color: var(--accent-light); margin-bottom: 0.75rem;
+    }
+    .card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .card p { font-size: 0.9rem; color: var(--text-muted); }
+
+    .samples {
+      background: var(--bg-elevated);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .sample-grid {
+      display: grid; gap: 1.5rem;
+    }
+    .sample {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.75rem;
+      transition: all 0.2s; cursor: pointer;
+    }
+    .sample:hover { border-color: rgba(76,175,147,0.3); }
+    .sample h3 {
+      font-size: 1.05rem; font-weight: 600; margin-bottom: 0.5rem;
+    }
+    .sample p { font-size: 0.9rem; color: var(--text-muted); }
+    .sample .read {
+      display: inline-block; margin-top: 0.75rem;
+      font-family: var(--mono); font-size: 0.75rem; color: var(--accent-light);
+    }
+
+    .cta {
+      text-align: center; padding: 5rem 2rem;
+      background: linear-gradient(180deg, transparent 0%, var(--accent-glow) 50%, transparent 100%);
+    }
+    .cta h2 { font-size: 2rem; font-weight: 700; margin-bottom: 0.75rem; }
+    .cta p { color: var(--text-muted); margin-bottom: 1.5rem; }
+
+    .footer {
+      padding: 3rem 2rem; text-align: center;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted); font-size: 0.85rem;
+    }
+    .footer a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
+    .footer a:hover { color: var(--accent-light); }
+    .footer-links { display: flex; gap: 1.5rem; justify-content: center; margin-bottom: 1rem; }
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--bg-card); border-radius: 4px; }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-logo">Latent<span>Brief</span></div>
+    <div class="nav-links">
+      <a href="#preview">Sample Issue</a>
+      <a href="#subscribe">Subscribe</a>
+      <a href="../">Newsletter OS ↗</a>
+      <a href="https://github.com/ClawTab/newsletter-os" class="nav-cta" target="_blank">GitHub</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <h1>The <em>signal</em> beneath the AI noise.</h1>
+    <p class="hero-sub">Every week, we extract the 5 stories that actually matter in AI and tech — and tell you why they matter. No hype. No fluff. Just the latent signal.</p>
+    <form class="signup" onsubmit="event.preventDefault(); alert('Thanks! We\'ll be in touch soon.');">
+      <input type="email" placeholder="you@example.com" required>
+      <button type="submit">Get LatentBrief</button>
+    </form>
+    <p class="signup-note">No spam. One email per week. Unsubscribe anytime.</p>
+  </header>
+
+  <section>
+    <div class="section">
+      <div class="cards">
+        <div class="card">
+          <div class="card-label">01 — What you get</div>
+          <h3>Curated signal</h3>
+          <p>5 curated stories per week, scored for relevance and impact. Plain-English context on why each story matters. Links to primary sources when you want to go deeper.</p>
+        </div>
+        <div class="card">
+          <div class="card-label">02 — What you don't get</div>
+          <h3>No noise</h3>
+          <p>No press release regurgitation. No startup funding round spam. No "AI will replace your job" panic headlines.</p>
+        </div>
+        <div class="card">
+          <div class="card-label">03 — Who it's for</div>
+          <h3>Busy builders</h3>
+          <p>Engineers and founders who need to stay current but can't spend 2 hours a day on Twitter. PMs making AI product decisions who need real signal, not marketing.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="preview" class="samples">
+    <div class="section">
+      <div class="section-header">
+        <p>A taste of the signal</p>
+        <h2>Recent issues</h2>
+      </div>
+      <div class="sample-grid">
+        <div class="sample">
+          <h3>OpenAI's GPT-5.4-Cyber and the new enterprise security playbook</h3>
+          <p>Why a model fine-tuned for cybersecurity isn't just a product launch — it's a signal about how AI safety and enterprise adoption are converging.</p>
+          <span class="read">Read more →</span>
+        </div>
+        <div class="sample">
+          <h3>Why Google building its own AI chips actually matters</h3>
+          <p>The TPU v6 announcement isn't about hardware specs. It's about vertical integration becoming a moat in the post-GPT era.</p>
+          <span class="read">Read more →</span>
+        </div>
+        <div class="sample">
+          <h3>The "boring AI" thesis: 2026's most important trend</h3>
+          <p>The most consequential AI deployments this year won't have demos. They'll be invisible infrastructure that just works.</p>
+          <span class="read">Read more →</span>
+        </div>
+      </div>
+      <p style="text-align:center; margin-top:2rem; font-size:0.8rem; color:var(--text-muted);">Example content — actual newsletter may vary</p>
+    </div>
+  </section>
+
+  <section id="subscribe" class="cta">
+    <h2>Get LatentBrief</h2>
+    <p>Join 200+ readers getting the real story on AI.</p>
+    <form class="signup" style="margin:0 auto;" onsubmit="event.preventDefault(); alert('Thanks! We\'ll be in touch soon.');">
+      <input type="email" placeholder="you@example.com" required>
+      <button type="submit">Subscribe</button>
+    </form>
+    <p class="signup-note">Free, weekly, unsubscribe anytime.</p>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="https://github.com/ClawTab/newsletter-os" target="_blank">GitHub</a>
+      <a href="../">Newsletter OS</a>
+    </div>
+    <p>© 2026 LatentBrief. Built by agents. Curated by humans.</p>
+  </footer>
+
+</body>
+</html>
