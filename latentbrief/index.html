@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LatentBrief — The signal beneath the AI noise</title>
+  <title>LatentBrief &#8212; The signal beneath the AI noise</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -51,67 +51,148 @@
       transition: color 0.2s;
     }
     .nav-links a:hover { color: var(--text); }
-    .nav-cta {
-      font-family: var(--mono); font-size: 0.8rem; font-weight: 700;
-      padding: 0.5rem 1rem; border-radius: 6px;
-      background: var(--accent); color: #fff;
-      transition: all 0.2s;
+    .nav-links a:focus-visible {
+      outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 2px;
     }
-    .nav-cta:hover { background: var(--accent-light); }
 
     .hero {
       min-height: 100vh;
-      display: flex; flex-direction: column;
-      justify-content: center; align-items: center;
-      text-align: center;
+      display: grid;
+      grid-template-columns: 1fr;
+      align-items: center;
       padding: 8rem 2rem 4rem;
       position: relative;
       overflow: hidden;
+      gap: 2rem;
+    }
+    @media (min-width: 900px) {
+      .hero {
+        grid-template-columns: 1.1fr 0.9fr;
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 7rem 2rem 5rem;
+      }
     }
     .hero::before {
-      content: ''; position: absolute; top: -50%; left: -50%;
+      content: ''; position: absolute; top: -50%; left: -30%;
       width: 200%; height: 200%;
-      background: radial-gradient(ellipse at 30% 20%, var(--accent-glow) 0%, transparent 50%),
-                  radial-gradient(ellipse at 70% 80%, rgba(124,110,250,0.08) 0%, transparent 50%);
+      background: radial-gradient(ellipse at 20% 30%, var(--accent-glow) 0%, transparent 50%);
       pointer-events: none;
     }
+    .hero-text { position: relative; z-index: 1; }
     .hero h1 {
-      font-size: clamp(2.5rem, 6vw, 4rem);
-      font-weight: 700; line-height: 1.15;
-      letter-spacing: -0.03em; max-width: 800px;
+      font-size: clamp(2.5rem, 5vw, 3.8rem);
+      font-weight: 700; line-height: 1.1;
+      letter-spacing: -0.03em;
       margin-bottom: 1.25rem;
     }
     .hero h1 em {
       font-style: normal;
-      background: linear-gradient(135deg, var(--accent-light), #7c6efa);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      color: var(--accent-light);
     }
     .hero-sub {
-      font-size: 1.2rem; color: var(--text-muted);
-      max-width: 520px; margin-bottom: 2.5rem;
+      font-size: 1.15rem; color: var(--text-muted);
+      max-width: 480px; margin-bottom: 2.5rem;
     }
     .signup {
-      display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;
+      display: flex; gap: 0.75rem; flex-wrap: wrap;
       width: 100%; max-width: 440px;
+      position: relative;
+    }
+    .signup label {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
     }
     .signup input {
       flex: 1; min-width: 240px;
       padding: 0.875rem 1.25rem; border-radius: 8px;
       border: 1px solid var(--border); background: var(--bg-card);
       color: var(--text); font-family: var(--sans); font-size: 0.95rem;
-      outline: none; transition: border-color 0.2s;
+      outline: none; transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .signup input:focus { border-color: var(--accent); }
+    .signup input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(76,175,147,0.15);
+    }
     .signup input::placeholder { color: var(--text-muted); }
     .signup button {
       padding: 0.875rem 1.5rem; border-radius: 8px;
       border: none; background: var(--accent); color: #fff;
       font-family: var(--mono); font-size: 0.8rem; font-weight: 700;
-      cursor: pointer; transition: all 0.2s; white-space: nowrap;
+      cursor: pointer;
+      transition: background 0.15s ease-out, transform 0.15s ease-out, box-shadow 0.15s ease-out;
+      white-space: nowrap;
+      position: relative;
     }
-    .signup button:hover { background: var(--accent-light); transform: translateY(-1px); }
+    .signup button:hover {
+      background: var(--accent-light);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(76,175,147,0.25);
+    }
+    .signup button:active {
+      transform: translateY(0) scale(0.97);
+      box-shadow: 0 1px 4px rgba(76,175,147,0.2);
+    }
+    .signup button:focus-visible {
+      outline: 2px solid var(--accent-light); outline-offset: 3px;
+    }
+    .signup button[aria-busy="true"] {
+      color: transparent;
+    }
+    .signup button[aria-busy="true"]::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 1rem; height: 1rem;
+      margin: -0.5rem 0 0 -0.5rem;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .signup-success {
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 1.25rem;
+      border-radius: 8px;
+      background: rgba(76,175,147,0.1);
+      border: 1px solid rgba(76,175,147,0.3);
+      color: var(--accent-light);
+      font-size: 0.95rem;
+    }
+    .signup-success.visible { display: flex; }
+    .signup-error {
+      display: none;
+      width: 100%;
+      padding: 0.5rem 0;
+      color: #ef4444;
+      font-size: 0.85rem;
+    }
+    .signup-error.visible { display: block; }
     .signup-note {
       margin-top: 0.75rem; font-size: 0.8rem; color: var(--text-muted);
+    }
+
+    .signal-viz {
+      position: relative;
+      width: 100%;
+      height: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    @media (min-width: 900px) {
+      .signal-viz { height: 360px; }
+    }
+    .signal-viz svg {
+      width: 100%;
+      height: 100%;
+      max-width: 420px;
     }
 
     .section {
@@ -131,21 +212,40 @@
     }
 
     .cards {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      display: grid;
+      grid-template-columns: 1fr;
       gap: 1.5rem;
+    }
+    @media (min-width: 700px) {
+      .cards {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+      }
+      .card:first-child {
+        grid-column: 1 / -1;
+      }
     }
     .card {
       background: var(--bg-card); border: 1px solid var(--border);
       border-radius: 12px; padding: 2rem;
-      transition: all 0.2s;
+      transition: all 0.2s ease-out;
     }
-    .card:hover { border-color: rgba(76,175,147,0.3); transform: translateY(-2px); }
+    .card:hover {
+      border-color: rgba(76,175,147,0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+    .card:active {
+      transform: translateY(0) scale(0.99);
+    }
     .card-label {
       font-family: var(--mono); font-size: 0.7rem;
       color: var(--accent-light); margin-bottom: 0.75rem;
     }
-    .card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; }
-    .card p { font-size: 0.9rem; color: var(--text-muted); }
+    .card h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .card:first-child h3 { font-size: 1.35rem; }
+    .card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; }
+    .card:first-child p { font-size: 1rem; max-width: 600px; }
 
     .samples {
       background: var(--bg-elevated);
@@ -158,9 +258,18 @@
     .sample {
       background: var(--bg-card); border: 1px solid var(--border);
       border-radius: 12px; padding: 1.75rem;
-      transition: all 0.2s; cursor: pointer;
+      transition: all 0.2s ease-out; cursor: pointer;
     }
-    .sample:hover { border-color: rgba(76,175,147,0.3); }
+    .sample:hover {
+      border-color: rgba(76,175,147,0.3);
+      transform: translateY(-1px);
+    }
+    .sample:active {
+      transform: translateY(0) scale(0.99);
+    }
+    .sample:focus-visible {
+      outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 12px;
+    }
     .sample h3 {
       font-size: 1.05rem; font-weight: 600; margin-bottom: 0.5rem;
     }
@@ -182,8 +291,17 @@
       border-top: 1px solid var(--border);
       color: var(--text-muted); font-size: 0.85rem;
     }
-    .footer a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
+    .footer a {
+      color: var(--text);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: color 0.2s;
+    }
     .footer a:hover { color: var(--accent-light); }
+    .footer a:focus-visible {
+      outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px;
+    }
+    .footer a:active { color: var(--accent); }
     .footer-links { display: flex; gap: 1.5rem; justify-content: center; margin-bottom: 1rem; }
 
     ::-webkit-scrollbar { width: 8px; }
@@ -198,36 +316,87 @@
     <div class="nav-links">
       <a href="#preview">Sample Issue</a>
       <a href="#subscribe">Subscribe</a>
-      <a href="../">Newsletter OS ↗</a>
-      <a href="https://github.com/ClawTab/newsletter-os" class="nav-cta" target="_blank">GitHub</a>
+      <a href="../">Newsletter OS &#8599;</a>
     </div>
   </nav>
 
   <header class="hero">
-    <h1>The <em>signal</em> beneath the AI noise.</h1>
-    <p class="hero-sub">Every week, we extract the 5 stories that actually matter in AI and tech — and tell you why they matter. No hype. No fluff. Just the latent signal.</p>
-    <form class="signup" onsubmit="event.preventDefault(); alert('Thanks! We\'ll be in touch soon.');">
-      <input type="email" placeholder="you@example.com" required>
-      <button type="submit">Get LatentBrief</button>
-    </form>
-    <p class="signup-note">No spam. One email per week. Unsubscribe anytime.</p>
+    <div class="hero-text">
+      <h1>The <em>signal</em> beneath the AI noise.</h1>
+      <p class="hero-sub">Every week, we extract the 5 stories that actually matter in AI and tech &#8212; and tell you why they matter. No hype. No fluff. Just the latent signal.</p>
+      <form class="signup" id="hero-signup" onsubmit="handleSubscribe(event, 'hero-signup')">
+        <label for="hero-email">Email address</label>
+        <input type="email" id="hero-email" name="email" placeholder="you@example.com" required>
+        <button type="submit" id="hero-btn">Get LatentBrief</button>
+        <div class="signup-success" id="hero-success">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          You're on the list. First issue drops soon.
+        </div>
+        <div class="signup-error" id="hero-error">Something went wrong. Please try again.</div>
+      </form>
+      <p class="signup-note">No spam. One email per week. Unsubscribe anytime.</p>
+    </div>
+    <div class="signal-viz" aria-hidden="true">
+      <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="signalGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#4caf93;stop-opacity:0.1"/>
+            <stop offset="50%" style="stop-color:#6dd5b8;stop-opacity:0.4"/>
+            <stop offset="100%" style="stop-color:#4caf93;stop-opacity:0.1"/>
+          </linearGradient>
+          <linearGradient id="barGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#6dd5b8;stop-opacity:0.8"/>
+            <stop offset="100%" style="stop-color:#4caf93;stop-opacity:0.2"/>
+          </linearGradient>
+        </defs>
+        <rect x="20" y="20" width="360" height="260" rx="12" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <line x1="40" y1="240" x2="360" y2="240" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+        <line x1="40" y1="180" x2="360" y2="180" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <line x1="40" y1="120" x2="360" y2="120" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <line x1="40" y1="60" x2="360" y2="60" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <path d="M40,220 Q80,210 100,180 T140,160 T180,140 T220,90 T260,100 T300,50 T340,60" fill="none" stroke="url(#signalGrad)" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M40,220 Q80,210 100,180 T140,160 T180,140 T220,90 T260,100 T300,50 T340,60" fill="none" stroke="#4caf93" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+        <circle cx="220" cy="90" r="4" fill="#6dd5b8" opacity="0.8"/>
+        <circle cx="300" cy="50" r="3" fill="#6dd5b8" opacity="0.6"/>
+        <rect x="55" y="200" width="12" height="40" rx="3" fill="url(#barGrad)" opacity="0.5"/>
+        <rect x="75" y="190" width="12" height="50" rx="3" fill="url(#barGrad)" opacity="0.4"/>
+        <rect x="95" y="170" width="12" height="70" rx="3" fill="url(#barGrad)" opacity="0.6"/>
+        <rect x="115" y="155" width="12" height="85" rx="3" fill="url(#barGrad)" opacity="0.4"/>
+        <rect x="135" y="145" width="12" height="95" rx="3" fill="url(#barGrad)" opacity="0.5"/>
+        <rect x="155" y="125" width="12" height="115" rx="3" fill="url(#barGrad)" opacity="0.7"/>
+        <rect x="175" y="130" width="12" height="110" rx="3" fill="url(#barGrad)" opacity="0.4"/>
+        <rect x="195" y="85" width="12" height="155" rx="3" fill="url(#barGrad)" opacity="0.8"/>
+        <rect x="215" y="95" width="12" height="145" rx="3" fill="url(#barGrad)" opacity="0.5"/>
+        <rect x="235" y="90" width="12" height="150" rx="3" fill="url(#barGrad)" opacity="0.6"/>
+        <rect x="255" y="105" width="12" height="135" rx="3" fill="url(#barGrad)" opacity="0.4"/>
+        <rect x="275" y="45" width="12" height="195" rx="3" fill="url(#barGrad)" opacity="0.9"/>
+        <rect x="295" y="55" width="12" height="185" rx="3" fill="url(#barGrad)" opacity="0.6"/>
+        <rect x="315" y="65" width="12" height="175" rx="3" fill="url(#barGrad)" opacity="0.4"/>
+        <rect x="335" y="50" width="12" height="190" rx="3" fill="url(#barGrad)" opacity="0.5"/>
+        <text x="40" y="35" fill="rgba(255,255,255,0.2)" font-family="var(--mono)" font-size="10" font-weight="700">SIGNAL STRENGTH</text>
+        <text x="340" y="35" fill="rgba(255,255,255,0.15)" font-family="var(--mono)" font-size="9" text-anchor="end">LIVE</text>
+        <circle cx="348" cy="31" r="2.5" fill="#4caf93" opacity="0.8">
+          <animate attributeName="opacity" values="0.8;0.2;0.8" dur="2s" repeatCount="indefinite"/>
+        </circle>
+      </svg>
+    </div>
   </header>
 
   <section>
     <div class="section">
       <div class="cards">
         <div class="card">
-          <div class="card-label">01 — What you get</div>
+          <div class="card-label">01 &#8212; What you get</div>
           <h3>Curated signal</h3>
           <p>5 curated stories per week, scored for relevance and impact. Plain-English context on why each story matters. Links to primary sources when you want to go deeper.</p>
         </div>
         <div class="card">
-          <div class="card-label">02 — What you don't get</div>
+          <div class="card-label">02 &#8212; What you don't get</div>
           <h3>No noise</h3>
           <p>No press release regurgitation. No startup funding round spam. No "AI will replace your job" panic headlines.</p>
         </div>
         <div class="card">
-          <div class="card-label">03 — Who it's for</div>
+          <div class="card-label">03 &#8212; Who it's for</div>
           <h3>Busy builders</h3>
           <p>Engineers and founders who need to stay current but can't spend 2 hours a day on Twitter. PMs making AI product decisions who need real signal, not marketing.</p>
         </div>
@@ -242,43 +411,83 @@
         <h2>Recent issues</h2>
       </div>
       <div class="sample-grid">
-        <div class="sample">
+        <div class="sample" tabindex="0">
           <h3>OpenAI's GPT-5.4-Cyber and the new enterprise security playbook</h3>
-          <p>Why a model fine-tuned for cybersecurity isn't just a product launch — it's a signal about how AI safety and enterprise adoption are converging.</p>
-          <span class="read">Read more →</span>
+          <p>Why a model fine-tuned for cybersecurity isn't just a product launch &#8212; it's a signal about how AI safety and enterprise adoption are converging.</p>
+          <span class="read">Read more &#8594;</span>
         </div>
-        <div class="sample">
+        <div class="sample" tabindex="0">
           <h3>Why Google building its own AI chips actually matters</h3>
           <p>The TPU v6 announcement isn't about hardware specs. It's about vertical integration becoming a moat in the post-GPT era.</p>
-          <span class="read">Read more →</span>
+          <span class="read">Read more &#8594;</span>
         </div>
-        <div class="sample">
+        <div class="sample" tabindex="0">
           <h3>The "boring AI" thesis: 2026's most important trend</h3>
           <p>The most consequential AI deployments this year won't have demos. They'll be invisible infrastructure that just works.</p>
-          <span class="read">Read more →</span>
+          <span class="read">Read more &#8594;</span>
         </div>
       </div>
-      <p style="text-align:center; margin-top:2rem; font-size:0.8rem; color:var(--text-muted);">Example content — actual newsletter may vary</p>
+      <p style="text-align:center; margin-top:2rem; font-size:0.8rem; color:var(--text-muted);">Example content &#8212; actual newsletter may vary</p>
     </div>
   </section>
 
   <section id="subscribe" class="cta">
     <h2>Get LatentBrief</h2>
     <p>Join 200+ readers getting the real story on AI.</p>
-    <form class="signup" style="margin:0 auto;" onsubmit="event.preventDefault(); alert('Thanks! We\'ll be in touch soon.');">
-      <input type="email" placeholder="you@example.com" required>
-      <button type="submit">Subscribe</button>
+    <form class="signup" id="cta-signup" style="margin:0 auto;" onsubmit="handleSubscribe(event, 'cta-signup')">
+      <label for="cta-email">Email address</label>
+      <input type="email" id="cta-email" name="email" placeholder="you@example.com" required>
+      <button type="submit" id="cta-btn">Subscribe</button>
+      <div class="signup-success" id="cta-success">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        You're on the list. First issue drops soon.
+      </div>
+      <div class="signup-error" id="cta-error">Something went wrong. Please try again.</div>
     </form>
     <p class="signup-note">Free, weekly, unsubscribe anytime.</p>
   </section>
 
   <footer class="footer">
     <div class="footer-links">
-      <a href="https://github.com/ClawTab/newsletter-os" target="_blank">GitHub</a>
       <a href="../">Newsletter OS</a>
     </div>
-    <p>© 2026 LatentBrief. Built by agents. Curated by humans.</p>
+    <p>&#169; 2026 LatentBrief. Built by agents. Curated by humans.</p>
   </footer>
+
+  <script>
+    function handleSubscribe(event, formId) {
+      event.preventDefault();
+      const form = document.getElementById(formId);
+      const btn = form.querySelector('button[type="submit"]');
+      const success = document.getElementById(formId.replace('signup', 'success'));
+      const error = document.getElementById(formId.replace('signup', 'error'));
+      const input = form.querySelector('input[type="email"]');
+
+      success.classList.remove('visible');
+      error.classList.remove('visible');
+
+      if (!input.value || !input.validity.valid) {
+        error.textContent = 'Please enter a valid email address.';
+        error.classList.add('visible');
+        input.focus();
+        return;
+      }
+
+      btn.setAttribute('aria-busy', 'true');
+      btn.disabled = true;
+      const originalText = btn.textContent;
+
+      setTimeout(() => {
+        btn.removeAttribute('aria-busy');
+        btn.disabled = false;
+        btn.textContent = originalText;
+        input.value = '';
+        success.classList.add('visible');
+        btn.style.display = 'none';
+        input.style.display = 'none';
+      }, 1200);
+    }
+  </script>
 
 </body>
 </html>
