@@ -442,6 +442,10 @@
     }
     .footer a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
     .footer a:hover { color: var(--accent-light); }
+    .footer a:active { color: var(--accent); }
+    .footer a:focus-visible {
+      outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px;
+    }
 
     /* Scrollbar */
     ::-webkit-scrollbar { width: 8px; }
