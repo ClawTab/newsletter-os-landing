@@ -448,6 +448,87 @@
     }
     .cta-section p { color: var(--text-muted); margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto; }
 
+    /* Newsletter Signup Form */
+    .newsletter-form {
+      display: flex; gap: 0.75rem; flex-wrap: wrap;
+      width: 100%; max-width: 440px;
+      position: relative;
+      justify-content: center;
+      margin: 0 auto 2rem;
+    }
+    .newsletter-form label {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+    .newsletter-form input {
+      flex: 1; min-width: 200px;
+      padding: 0.875rem 1.25rem; border-radius: 8px;
+      border: 1px solid var(--border); background: var(--bg-card);
+      color: var(--text); font-family: var(--sans); font-size: 0.95rem;
+      outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .newsletter-form input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(124,110,250,0.15);
+    }
+    .newsletter-form input::placeholder { color: var(--text-muted); }
+    .newsletter-form button {
+      padding: 0.875rem 1.5rem; border-radius: 8px;
+      border: none; background: var(--accent); color: #fff;
+      font-family: var(--mono); font-size: 0.8rem; font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s ease-out, transform 0.15s ease-out, box-shadow 0.15s ease-out;
+      white-space: nowrap;
+    }
+    .newsletter-form button:hover {
+      background: var(--accent-light);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(124,110,250,0.25);
+    }
+    .newsletter-form button:active {
+      transform: translateY(0);
+    }
+    .newsletter-form button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .newsletter-form button[aria-busy="true"] {
+      color: transparent;
+    }
+    .newsletter-form button[aria-busy="true"]::after {
+      content: '';
+      position: absolute;
+      width: 16px; height: 16px;
+      top: 50%; left: 50%;
+      margin: -8px 0 0 -8px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .form-message {
+      width: 100%;
+      text-align: left;
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+      display: none;
+    }
+    .form-message.visible { display: block; }
+    .form-message.error { color: #f87171; }
+    .form-message.success {
+      color: var(--success);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+    .form-message.success svg { flex-shrink: 0; }
+
     /* Footer */
     .footer {
       padding: 3rem 2rem; text-align: center;
@@ -753,11 +834,17 @@
   <section id="start" class="cta-section">
     <h2>Start your newsletter today</h2>
     <p>Paid plans only. Pick a tier and we'll get you set up within 24 hours.</p>
-    <div class="hero-cta">
-      <a href="mailto:hello@clawtab.com?subject=Newsletter%20OS%20Inquiry" class="btn btn-primary">Get started →</a>
-      <a href="mailto:hello@clawtab.com?subject=Newsletter%20OS%20Demo" class="btn btn-secondary">Book a demo</a>
-    </div>
-    <p style="margin-top: 1.5rem; font-size: 0.8rem; color: var(--text-muted);">Questions? Email <a href="mailto:hello@clawtab.com" style="color: var(--accent-light);">hello@clawtab.com</a></p>
+    <form class="newsletter-form" id="cta-signup" onsubmit="handleSubscribe(event, 'cta-signup')">
+      <label for="cta-email">Email address</label>
+      <input type="email" id="cta-email" name="email" placeholder="you@example.com" required>
+      <button type="submit" id="cta-btn">Get started →</button>
+      <div class="form-message error" id="cta-error"></div>
+      <div class="form-message success" id="cta-success">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Thanks! We'll be in touch soon.
+      </div>
+    </form>
+    <p style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">Questions? <a href="mailto:hello@clawtab.com" style="color: var(--accent-light);">Book a demo</a> instead</p>
   </section>
 
   <footer class="footer">
@@ -766,6 +853,80 @@
   </footer>
 
   <script>
+    // Newsletter subscription handler
+    async function handleSubscribe(event, formId) {
+      event.preventDefault();
+      var form = document.getElementById(formId);
+      var btn = form.querySelector('button[type="submit"]');
+      var success = document.getElementById(formId.replace('signup', 'success'));
+      var error = document.getElementById(formId.replace('signup', 'error'));
+      var input = form.querySelector('input[type="email"]');
+
+      if (success) success.classList.remove('visible');
+      if (error) error.classList.remove('visible');
+
+      if (!input.value || !input.validity.valid) {
+        if (error) {
+          error.textContent = 'Please enter a valid email address.';
+          error.classList.add('visible');
+        }
+        input.focus();
+        return;
+      }
+
+      btn.setAttribute('aria-busy', 'true');
+      btn.disabled = true;
+      var originalText = btn.textContent;
+
+      try {
+        var formData = new URLSearchParams();
+        formData.append('email', input.value.trim());
+
+        var response = await fetch('https://app.loops.so/api/newsletter-form/cmo7ehg1003sm0ixcrhmb1of0', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: formData.toString()
+        });
+
+        var data;
+        try {
+          data = await response.json();
+        } catch (e) {
+          data = {};
+        }
+
+        if (response.ok && data.success) {
+          input.value = '';
+          if (success) {
+            success.classList.add('visible');
+            btn.style.display = 'none';
+            input.style.display = 'none';
+          }
+        } else if (response.status === 429) {
+          if (error) {
+            error.textContent = 'Too many attempts. Please wait a minute and try again.';
+            error.classList.add('visible');
+          }
+        } else {
+          if (error) {
+            error.textContent = data.message || 'Something went wrong. Please try again.';
+            error.classList.add('visible');
+          }
+        }
+      } catch (err) {
+        if (error) {
+          error.textContent = 'Network error. Please check your connection and try again.';
+          error.classList.add('visible');
+        }
+      } finally {
+        btn.removeAttribute('aria-busy');
+        btn.disabled = false;
+        if (btn.style.display !== 'none') {
+          btn.textContent = originalText;
+        }
+      }
+    }
+
     // Mobile nav toggle
     (function() {
       var toggle = document.querySelector('.nav-toggle');
