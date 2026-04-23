@@ -502,32 +502,38 @@
     .newsletter-form button[aria-busy="true"]::after {
       content: '';
       position: absolute;
-      width: 16px; height: 16px;
       top: 50%; left: 50%;
-      margin: -8px 0 0 -8px;
+      width: 1rem; height: 1rem;
+      margin: -0.5rem 0 0 -0.5rem;
       border: 2px solid rgba(255,255,255,0.3);
       border-top-color: #fff;
       border-radius: 50%;
       animation: spin 0.6s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .form-message {
-      width: 100%;
-      text-align: left;
-      font-size: 0.85rem;
-      margin-top: 0.5rem;
+    .form-success {
       display: none;
-    }
-    .form-message.visible { display: block; }
-    .form-message.error { color: #f87171; }
-    .form-message.success {
-      color: var(--success);
-      display: flex;
       align-items: center;
       gap: 0.5rem;
-      justify-content: center;
+      padding: 0.875rem 1.25rem;
+      border-radius: 8px;
+      background: rgba(74,222,128,0.1);
+      border: 1px solid rgba(74,222,128,0.3);
+      color: var(--success);
+      font-size: 0.95rem;
     }
-    .form-message.success svg { flex-shrink: 0; }
+    .form-success.visible { display: flex; }
+    .form-error {
+      display: none;
+      width: 100%;
+      padding: 0.5rem 0;
+      color: #ef4444;
+      font-size: 0.85rem;
+    }
+    .form-error.visible { display: block; }
+    .form-note {
+      margin-top: 0.75rem; font-size: 0.8rem; color: var(--text-muted);
+    }
 
     /* Footer */
     .footer {
@@ -535,19 +541,24 @@
       border-top: 1px solid var(--border);
       color: var(--text-muted); font-size: 0.85rem;
     }
-    .footer a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
+    .footer a {
+      color: var(--text);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: color 0.2s;
+    }
     .footer a:hover { color: var(--accent-light); }
-    .footer a:active { color: var(--accent); }
     .footer a:focus-visible {
       outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px;
     }
+    .footer a:active { color: var(--accent); }
 
     /* Scrollbar */
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: var(--bg-card); border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
+    /* Reduced motion */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
@@ -560,7 +571,7 @@
 </head>
 <body>
 
-  <a href="#workflow" class="skip-link">Skip to content</a>
+  <a href="#hero" class="skip-link">Skip to content</a>
 
   <nav class="nav">
     <div class="nav-logo">Newsletter<span>OS</span></div>
@@ -572,257 +583,164 @@
       </svg>
     </button>
     <div class="nav-links" id="nav-menu">
-      <a href="#workflow">How it works</a>
       <a href="#features">Features</a>
       <a href="#pricing">Pricing</a>
-      <a href="#demo">Results</a>
-      <a href="latentbrief/">Live Example</a>
-      <a href="#start" class="nav-cta">Get started</a>
+      <a href="latentbrief/">LatentBrief</a>
+      <a href="#subscribe" class="nav-cta">Get Started</a>
     </div>
   </nav>
 
-  <header class="hero">
-    <div class="hero-badge">
-      <span>AI-powered · Human-approved</span>
-    </div>
-    <h1>Your newsletter, on <em>autopilot</em></h1>
-    <p class="hero-sub">We find the stories, write the draft, and queue it for your approval. You just click "send." Grow your audience without the daily grind.</p>
+  <header class="hero" id="hero">
+    <div class="hero-badge">Now in open beta</div>
+    <h1>Your newsletter, <em>on autopilot</em>.</h1>
+    <p class="hero-sub">We find the stories, write the draft, and queue it for your approval. You just click send.</p>
     <div class="hero-cta">
-      <a href="#start" class="btn btn-primary">Get started →</a>
-      <a href="latentbrief/" class="btn btn-secondary">See live example</a>
+      <a href="#subscribe" class="btn btn-primary">Start Free Trial</a>
+      <a href="#features" class="btn btn-secondary">See How It Works</a>
     </div>
-
     <div class="hero-demo">
       <div class="demo-bar">
         <div class="demo-dot red"></div>
         <div class="demo-dot yellow"></div>
         <div class="demo-dot green"></div>
-        <span class="demo-title">Your Newsletter OS — Daily Run</span>
+        <div class="demo-title">newsletter-os --run</div>
       </div>
       <div class="demo-body">
-        <div><span class="cmd">$</span> newsletter-os run --daily</div>
-        <div class="out">[06:00 UTC] Scanning 47 sources for tech stories...</div>
-        <div class="out">[06:02] 12 stories found → scored for relevance</div>
-        <div class="out">[06:03] Top 5 queued in your review queue</div>
-        <div class="out">[09:15] You approved 4/5 stories</div>
-        <div class="out">[09:16] Draft written in your voice (~500 words)</div>
-        <div class="out">[09:17] Draft ready — awaiting final approval</div>
-        <div class="out">[10:00] Approved. Sending via email...</div>
-        <div class="ok">[10:01] ✓ Delivered to 247 subscribers</div>
-        <div class="warn">[10:02] X thread posted automatically</div>
+        <div><span class="cmd">$</span> <span class="out">newsletter-os curate --today</span></div>
+        <div class="out">Scanning 247 sources...</div>
+        <div class="out">Found 12 high-signal stories</div>
+        <div class="out">Scoring for relevance...</div>
+        <div><span class="ok">✓</span> <span class="out">5 stories selected</span></div>
+        <div><span class="cmd">$</span> <span class="out">newsletter-os draft --tone="friendly-expert"</span></div>
+        <div class="out">Writing draft... <span class="ok">Done</span></div>
+        <div><span class="cmd">$</span> <span class="out">newsletter-os queue --send-at="tomorrow-9am"</span></div>
+        <div><span class="ok">✓</span> <span class="out">Draft queued for your approval</span></div>
       </div>
     </div>
   </header>
 
   <section class="social-proof">
-    <p>Trusted by newsletter operators who'd rather create than curate</p>
+    <p>Trusted by newsletter operators who value their time</p>
     <div class="stats">
       <div class="stat">
-        <div class="stat-num">200+</div>
-        <div class="stat-label">subscribers served</div>
+        <div class="stat-num">247</div>
+        <div class="stat-label">Sources monitored</div>
       </div>
       <div class="stat">
-        <div class="stat-num">5</div>
-        <div class="stat-label">stories per issue</div>
+        <div class="stat-num">5min</div>
+        <div class="stat-label">Average review time</div>
       </div>
       <div class="stat">
-        <div class="stat-num">2</div>
-        <div class="stat-label">platforms automated</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">1</div>
-        <div class="stat-label">click to publish</div>
+        <div class="stat-num">93%</div>
+        <div class="stat-label">Approval rate</div>
       </div>
     </div>
   </section>
 
-  <section id="workflow">
-    <div class="section">
-      <div class="section-header">
-        <p>How it works</p>
-        <h2>From noise to newsletter in 4 steps</h2>
-        <p class="sub">You stay in control. We handle everything else.</p>
+  <section id="features" class="section">
+    <div class="section-header">
+      <p>How It Works</p>
+      <h2>From chaos to curated in three steps</h2>
+      <p class="sub">No more tab hoarding. No more writer's block. No more missed deadlines.</p>
+    </div>
+    <div class="workflow">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Connect your sources</h3>
+        <p>Add RSS feeds, Twitter lists, Reddit subs, and newsletters you trust. Or let us recommend a starter set for your niche.</p>
+        <div class="step-arrow">→</div>
       </div>
-      <div class="workflow">
-        <div class="step">
-          <div class="step-num">01 — DISCOVER</div>
-          <h3>We scan the web</h3>
-          <p>Our agents search X, Reddit, blogs, and academic papers for stories matching your niche. No RSS reader maintenance required.</p>
-          <div class="step-arrow">→</div>
-        </div>
-        <div class="step">
-          <div class="step-num">02 — SCORE</div>
-          <h3>Stories ranked by signal</h3>
-          <p>Each story is scored on relevance, timeliness, and narrative fit. The best candidates surface automatically.</p>
-          <div class="step-arrow">→</div>
-        </div>
-        <div class="step">
-          <div class="step-num">03 — REVIEW</div>
-          <h3>You approve in one click</h3>
-          <p>Review the curated stories and draft in a clean dashboard. Approve, reject, or edit — full control, zero friction.</p>
-          <div class="step-arrow">→</div>
-        </div>
-        <div class="step">
-          <div class="step-num">04 — DISTRIBUTE</div>
-          <h3>Multi-platform publish</h3>
-          <p>One approval triggers email delivery + X thread. Both written in your voice, sent automatically.</p>
-        </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Review the curation</h3>
+        <p>Every morning, we surface 5-7 stories scored by relevance. You pick the winners in under 5 minutes.</p>
+        <div class="step-arrow">→</div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Edit & send</h3>
+        <p>Our draft is ready in your voice. Tweak it, approve it, or hit send. We handle formatting and delivery.</p>
+        <div class="step-arrow">→</div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <h3>Learn what works</h3>
+        <p>Open rates, click rates, and reader feedback feed back into the scoring model. It gets smarter every week.</p>
       </div>
     </div>
   </section>
 
-  <section id="features">
-    <div class="section">
-      <div class="section-header">
-        <p>Features</p>
-        <h2>Everything you need, nothing you don't</h2>
+  <section class="section">
+    <div class="section-header">
+      <p>Features</p>
+      <h2>Everything you need, nothing you don't</h2>
+    </div>
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">🔍</div>
+        <h3>Multi-source curation engine</h3>
+        <p>Monitors RSS, Twitter, Reddit, HN, and niche newsletters. Scores stories by relevance, novelty, and engagement potential. You never miss the signal.</p>
       </div>
-      <div class="features">
-        <div class="feature">
-          <div class="feature-icon">🤖</div>
-          <h3>AI-Powered Curation</h3>
-          <p>Agents scan 40+ sources across social media, blogs, and research. Stories are scored and ranked automatically so you only see the best.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">✅</div>
-          <h3>Human-in-the-Loop</h3>
-          <p>Nothing ships without your approval. Review stories, add comments, reject what doesn't fit — you're the editor-in-chief.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">📧</div>
-          <h3>Multi-Platform Distribution</h3>
-          <p>One approval triggers email delivery + X thread. Both are auto-generated in your voice.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">🔄</div>
-          <h3>Composable Workflows</h3>
-          <p>Curation, writing, humanization, and distribution are modular workflows. Swap or extend any piece as you grow.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">⏰</div>
-          <h3>Scheduled Automation</h3>
-          <p>Set your schedule and forget it. Daily or weekly curation runs automatically. Your newsletter works while you sleep.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">📝</div>
-          <h3>Natural Voice Writing</h3>
-          <p>Newsletters written in a natural, human voice. Our humanizer rewrites AI draft text so readers never know a machine was involved.</p>
-        </div>
+      <div class="feature">
+        <div class="feature-icon">✍️</div>
+        <h3>AI draft generation</h3>
+        <p>Writes in your voice, not generic AI-speak. Learns from your past issues and brand guidelines. You edit, not write from scratch.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📊</div>
+        <h3>Smart scoring</h3>
+        <p>Every story gets a relevance score based on your audience's interests. Skip the noise, publish what matters.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📅</div>
+        <h3>Queue & schedule</h3>
+        <p>Queue drafts for specific send times. Build a content calendar without the spreadsheet.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📈</div>
+        <h3>Performance feedback loop</h3>
+        <p>Open rates, click rates, and reader feedback feed back into the model. Your curation gets smarter every week.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🎨</div>
+        <h3>Custom voice training</h3>
+        <p>Upload your best issues. We'll match your tone, style, and formatting preferences. Consistency without the effort.</p>
       </div>
     </div>
   </section>
 
-  <section id="pricing">
+  <section class="demo-section">
     <div class="section">
       <div class="section-header">
-        <p>Pricing</p>
-        <h2>Simple pricing for every stage</h2>
-        <p class="sub">One flat fee. AI curation, email delivery, and distribution included.</p>
-      </div>
-      <div class="pricing-cards" style="max-width: 1000px;">
-        <!-- Creator -->
-        <div class="pricing-card">
-          <h3>Creator</h3>
-          <div class="price">$39<span>/mo</span></div>
-          <div class="price-desc">For solo writers &amp; indie hackers</div>
-          <ul>
-            <li><strong>1</strong> newsletter</li>
-            <li><strong>2,500</strong> subscribers</li>
-            <li>Weekly or daily curation</li>
-            <li>Email + X distribution</li>
-            <li>Full analytics</li>
-            <li>Email support</li>
-          </ul>
-          <a href="#start" class="btn btn-secondary">Get started</a>
-        </div>
-
-        <!-- Growth -->
-        <div class="pricing-card popular">
-          <div class="popular-badge">MOST POPULAR</div>
-          <h3>Growth</h3>
-          <div class="price">$99<span>/mo</span></div>
-          <div class="price-desc">For teams &amp; small agencies</div>
-          <ul>
-            <li><strong>3</strong> newsletters</li>
-            <li><strong>10,000</strong> subscribers total</li>
-            <li>Weekly or daily curation</li>
-            <li>Email + X + Instagram</li>
-            <li>Advanced analytics</li>
-            <li>Priority support</li>
-          </ul>
-          <a href="#start" class="btn btn-primary">Get started</a>
-        </div>
-
-        <!-- Pro -->
-        <div class="pricing-card">
-          <h3>Pro</h3>
-          <div class="price">$249<span>/mo</span></div>
-          <div class="price-desc">For media companies &amp; power users</div>
-          <ul>
-            <li><strong>10</strong> newsletters</li>
-            <li><strong>50,000</strong> subscribers total</li>
-            <li>Weekly or daily curation</li>
-            <li>All channels (incl. TikTok)</li>
-            <li>Custom AI voice training</li>
-            <li>Dedicated support</li>
-          </ul>
-          <a href="#start" class="btn btn-secondary">Contact sales</a>
-        </div>
-      </div>
-      <p style="text-align: center; margin-top: 2rem; font-size: 0.8rem; color: var(--text-muted);">
-        Subscriber and newsletter limits are pooled across your workspace.
-        <a href="mailto:hello@clawtab.com" style="color: var(--accent-light);">Need more? Contact us for Enterprise pricing.</a>
-      </p>
-    </div>
-  </section>
-
-  <section id="demo" class="demo-section">
-    <div class="section">
-      <div class="section-header">
-        <p>Case study</p>
-        <h2>See it in production</h2>
-        <p class="sub">LatentBrief is a tech newsletter running entirely on Newsletter OS</p>
+        <p>Preview</p>
+        <h2>See what your curation looks like</h2>
       </div>
       <div class="demo-card">
         <div class="demo-card-content">
-          <h3>LatentBrief — The signal beneath the AI noise</h3>
-          <p>A weekly tech newsletter for engineers, PMs, and founders. Every issue is curated by agents, approved by a human, and distributed via email and X — all from a single approval click.</p>
-          <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
-            <div style="text-align: center;">
-              <div style="font-size: 1.5rem; font-weight: 700; color: var(--accent-light);">200+</div>
-              <div style="font-size: 0.75rem; color: var(--text-muted);">subscribers</div>
-            </div>
-            <div style="text-align: center;">
-              <div style="font-size: 1.5rem; font-weight: 700; color: var(--accent-light);">5</div>
-              <div style="font-size: 0.75rem; color: var(--text-muted);">stories/issue</div>
-            </div>
-            <div style="text-align: center;">
-              <div style="font-size: 1.5rem; font-weight: 700; color: var(--accent-light);">2</div>
-              <div style="font-size: 0.75rem; color: var(--text-muted);">platforms</div>
-            </div>
-          </div>
-          <a href="latentbrief/" class="btn btn-primary">View LatentBrief →</a>
+          <h3>Your morning curation</h3>
+          <p>Every day at 8am, you get a scored list of stories. Pick the winners, skip the rest. Takes 5 minutes.</p>
+          <a href="#subscribe" class="btn btn-primary">Try It Free</a>
         </div>
         <div class="demo-card-visual">
           <div class="newsletter-preview">
             <div class="preview-header">
-              <strong>LatentBrief</strong> — Weekly Digest
+              <strong>LatentBrief</strong> — Daily Curation
             </div>
             <div class="preview-body">
               <div class="preview-item">
-                <h4>OpenAI's GPT-5.4-Cyber signals a shift</h4>
-                <p>Why a cybersecurity-tuned model isn't just a product — it's a convergence of safety and enterprise.</p>
-                <span class="preview-score">Relevance: 9.2</span>
+                <h4>OpenAI's GPT-5.4-Cyber security model</h4>
+                <p>Fine-tuned for enterprise cybersecurity. Signal: high.</p>
+                <span class="preview-score">Score: 94</span>
               </div>
               <div class="preview-item">
-                <h4>Google's TPU v6 is about vertical integration</h4>
-                <p>The hardware story everyone misses: owning the stack is the new moat.</p>
-                <span class="preview-score">Relevance: 8.7</span>
+                <h4>Google TPU v6 announcement</h4>
+                <p>Vertical integration as moat in post-GPT era.</p>
+                <span class="preview-score">Score: 89</span>
               </div>
               <div class="preview-item">
                 <h4>The "boring AI" thesis</h4>
-                <p>2026's most important AI trend has no demo. It's invisible infrastructure.</p>
-                <span class="preview-score">Relevance: 8.5</span>
+                <p>Invisible infrastructure > flashy demos.</p>
+                <span class="preview-score">Score: 87</span>
               </div>
             </div>
           </div>
@@ -831,93 +749,132 @@
     </div>
   </section>
 
-  <section id="start" class="cta-section">
-    <h2>Start your newsletter today</h2>
-    <p>Paid plans only. Pick a tier and we'll get you set up within 24 hours.</p>
-    <form class="newsletter-form" id="cta-signup" onsubmit="handleSubscribe(event, 'cta-signup')">
-      <label for="cta-email">Email address</label>
-      <input type="email" id="cta-email" name="email" placeholder="you@example.com" required>
-      <button type="submit" id="cta-btn">Get started →</button>
-      <div class="form-message error" id="cta-error"></div>
-      <div class="form-message success" id="cta-success">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        Thanks! We'll be in touch soon.
+  <section id="pricing" class="section">
+    <div class="section-header">
+      <p>Pricing</p>
+      <h2>Simple pricing, no surprises</h2>
+    </div>
+    <div class="pricing-cards">
+      <div class="pricing-card">
+        <h3>Starter</h3>
+        <div class="price">$0<span>/mo</span></div>
+        <p class="price-desc">For hobby newsletters</p>
+        <ul>
+          <li>Up to 500 subscribers</li>
+          <li>5 sources</li>
+          <li>Weekly curation</li>
+          <li>Basic analytics</li>
+        </ul>
+        <a href="#subscribe" class="btn btn-secondary">Get Started</a>
       </div>
+      <div class="pricing-card popular">
+        <div class="popular-badge">Most Popular</div>
+        <h3>Pro</h3>
+        <div class="price">$29<span>/mo</span></div>
+        <p class="price-desc">For serious newsletter operators</p>
+        <ul>
+          <li>Unlimited subscribers</li>
+          <li>50 sources</li>
+          <li>Daily curation</li>
+          <li>AI draft generation</li>
+          <li>Voice training</li>
+          <li>Priority support</li>
+        </ul>
+        <a href="#subscribe" class="btn btn-primary">Start Free Trial</a>
+      </div>
+      <div class="pricing-card">
+        <h3>Team</h3>
+        <div class="price">$79<span>/mo</span></div>
+        <p class="price-desc">For teams and agencies</p>
+        <ul>
+          <li>Everything in Pro</li>
+          <li>5 team members</li>
+          <li>White-label</li>
+          <li>API access</li>
+          <li>Dedicated support</li>
+        </ul>
+        <a href="#subscribe" class="btn btn-secondary">Contact Sales</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="subscribe" class="cta-section">
+    <h2>Ready to automate your newsletter?</h2>
+    <p>Join newsletter operators who spend 5 minutes reviewing instead of 5 hours writing.</p>
+    <form class="newsletter-form" id="subscribe-form" onsubmit="handleSubscribe(event)">
+      <label for="email">Email address</label>
+      <input type="email" id="email" name="email" placeholder="you@example.com" required>
+      <button type="submit" id="submit-btn">Start Free Trial</button>
+      <div class="form-success" id="form-success">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        You're on the list. We'll be in touch soon.
+      </div>
+      <div class="form-error" id="form-error">Something went wrong. Please try again.</div>
     </form>
-    <p style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">Questions? <a href="mailto:hello@clawtab.com" style="color: var(--accent-light);">Book a demo</a> instead</p>
+    <p class="form-note">Free 14-day trial. No credit card required. Cancel anytime.</p>
   </section>
 
   <footer class="footer">
-    <p>© 2026 Newsletter OS. Part of the <a href="https://github.com/ClawTab">ClawTab</a> ecosystem.</p>
-    <p style="margin-top: 0.5rem; font-size: 0.75rem;"><a href="latentbrief/">LatentBrief</a> · <a href="https://github.com/ClawTab/newsletter-os">GitHub</a></p>
+    <p>Built by agents. Curated by humans.</p>
+    <p style="margin-top: 0.5rem;"><a href="latentbrief/">LatentBrief</a> — our AI newsletter</p>
   </footer>
 
   <script>
-    // Newsletter subscription handler
-    async function handleSubscribe(event, formId) {
+    async function handleSubscribe(event) {
       event.preventDefault();
-      var form = document.getElementById(formId);
-      var btn = form.querySelector('button[type="submit"]');
-      var success = document.getElementById(formId.replace('signup', 'success'));
-      var error = document.getElementById(formId.replace('signup', 'error'));
-      var input = form.querySelector('input[type="email"]');
+      const form = document.getElementById('subscribe-form');
+      const btn = document.getElementById('submit-btn');
+      const success = document.getElementById('form-success');
+      const error = document.getElementById('form-error');
+      const input = document.getElementById('email');
 
-      if (success) success.classList.remove('visible');
-      if (error) error.classList.remove('visible');
+      success.classList.remove('visible');
+      error.classList.remove('visible');
 
       if (!input.value || !input.validity.valid) {
-        if (error) {
-          error.textContent = 'Please enter a valid email address.';
-          error.classList.add('visible');
-        }
+        error.textContent = 'Please enter a valid email address.';
+        error.classList.add('visible');
         input.focus();
         return;
       }
 
       btn.setAttribute('aria-busy', 'true');
       btn.disabled = true;
-      var originalText = btn.textContent;
+      const originalText = btn.textContent;
+      btn.textContent = '';
 
       try {
-        var formData = new URLSearchParams();
+        const formData = new URLSearchParams();
         formData.append('email', input.value.trim());
 
-        var response = await fetch('https://app.loops.so/api/newsletter-form/cmo7ehg1003sm0ixcrhmb1of0', {
+        const response = await fetch('https://app.loops.so/api/newsletter-form/cmo7ehg1003sm0ixcrhmb1of0', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: formData.toString()
         });
 
-        var data;
+        let data;
         try {
           data = await response.json();
-        } catch (e) {
+        } catch {
           data = {};
         }
 
         if (response.ok && data.success) {
           input.value = '';
-          if (success) {
-            success.classList.add('visible');
-            btn.style.display = 'none';
-            input.style.display = 'none';
-          }
+          success.classList.add('visible');
+          btn.style.display = 'none';
+          input.style.display = 'none';
         } else if (response.status === 429) {
-          if (error) {
-            error.textContent = 'Too many attempts. Please wait a minute and try again.';
-            error.classList.add('visible');
-          }
+          error.textContent = 'Too many attempts. Please wait a minute and try again.';
+          error.classList.add('visible');
         } else {
-          if (error) {
-            error.textContent = data.message || 'Something went wrong. Please try again.';
-            error.classList.add('visible');
-          }
-        }
-      } catch (err) {
-        if (error) {
-          error.textContent = 'Network error. Please check your connection and try again.';
+          error.textContent = data.message || 'Something went wrong. Please try again.';
           error.classList.add('visible');
         }
+      } catch (err) {
+        error.textContent = 'Network error. Please check your connection and try again.';
+        error.classList.add('visible');
       } finally {
         btn.removeAttribute('aria-busy');
         btn.disabled = false;
@@ -953,5 +910,6 @@
       });
     })();
   </script>
+
 </body>
 </html>
