@@ -617,6 +617,7 @@
       try {
         const formData = new URLSearchParams();
         formData.append('email', input.value.trim());
+        formData.append('mailingLists', JSON.stringify({"cmod9lgcm2w680itg8b2v880b":true}));
 
         const response = await fetch('https://app.loops.so/api/newsletter-form/cmo7ehg1003sm0ixcrhmb1of0', {
           method: 'POST',
