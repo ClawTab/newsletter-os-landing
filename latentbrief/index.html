@@ -463,6 +463,13 @@
           })
         });
 
+        let data;
+        try {
+          data = await response.json();
+        } catch {
+          data = {};
+        }
+
         if (response.ok || response.status === 201) {
           input.value = '';
           success.classList.add('visible');
